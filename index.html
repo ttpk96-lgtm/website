@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ThS. Trần Thị Phương Kiều - Giảng viên HUIT</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    
+    <style>
+        /* --- CẤU HÌNH CƠ BẢN --- */
+        :root {
+            --primary: #1a73e8;       
+            --primary-dark: #1557b0;  
+            --secondary: #d93025;     
+            --background: #f0f2f5;    
+            --surface: #ffffff;       
+            --text-primary: #202124;  
+            --text-secondary: #5f6368;
+            --shadow-1: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+        }
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: var(--background);
+            color: var(--text-primary);
+            margin: 0;
+            line-height: 1.6;
+            overflow-y: scroll; /* Luôn hiện thanh cuộn để tránh giật màn hình */
+        }
+
+        /* --- HEADER --- */
+        header {
+            background: var(--surface);
+            box-shadow: var(--shadow-1);
+            position: sticky; top: 0; z-index: 1000; height: 70px;
+            display: flex; align-items: center;
+        }
+
+        .nav-container {
+            width: 100%; max-width: 1100px; margin: 0 auto; padding: 0 24px;
+            display: flex; justify-content: space-between; align-items: center;
+        }
+
+        .brand-area { 
+            display: flex; align-items: center; gap: 16px; cursor: pointer; 
+            transition: opacity 0.3s;
+        }
+        .brand-area:hover { opacity: 0.8; }
+        
+        .school-logo { height: 50px; width: auto; object-fit: contain; }
+
+        .logo-text { display: flex; flex-direction: column; font-size: 1rem; line-height: 1.2; }
+        .logo-text strong { color: var(--primary); }
+        .logo-text span { font-size: 0.85rem; color: var(--text-secondary); }
+
+        nav ul { list-style: none; display: flex; gap: 15px; margin: 0; padding: 0; }
+        
+        /* Menu Button Style */
+        .nav-btn {
+            background: transparent;
+            border: none;
+            color: var(--text-secondary);
+            font-size: 0.9rem; font-weight: 500; text-transform: uppercase;
+            padding: 10px 15px;
+            cursor: pointer;
+            position: relative;
+            font-family: 'Roboto', sans-serif;
+            transition: color 0.3s;
+        }
+        
+        .nav-btn:hover, .nav-btn.active { color: var(--primary); }
+        
+        /* Gạch chân khi active */
+        .nav-btn::after {
+            content: ''; position: absolute; bottom: 0; left: 50%; width: 0; height: 3px;
+            background: var(--primary); transition: all 0.3s; transform: translateX(-50%);
+            border-radius: 3px;
+        }
+        .nav-btn.active::after { width: 80%; }
+
+        /* --- TRANG CHỦ (LANDING VIEW) --- */
+        #home-view {
+            display: block; /* Mặc định hiện */
+            animation: fadeIn 0.5s ease-in-out;
+        }
+
+        .hero {
+            background-image: url('Background.jpg');
+            background-size: cover; background-position: center;
+            padding: 100px 20px 120px; text-align: center; position: relative;
+            color: white;
+        }
+        .hero::before {
+            content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0,0,0,0.65); z-index: 1;
+        }
+        .hero-content { position: relative; z-index: 2; max-width: 800px; margin: 0 auto; }
+        
+        .profile-img {
+            width: 180px; height: 180px; border-radius: 50%; object-fit: cover;
+            border: 5px solid rgba(255,255,255,0.9); 
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+            margin-bottom: 20px; background: var(--surface);
+        }
+
+        .hero h1 { font-size: 2.8rem; font-weight: 500; margin: 0 0 10px; color: white; }
+        .hero .subtitle { font-size: 1.3rem; font-weight: 300; opacity: 0.95; margin-bottom: 30px;}
+        
+        .university-badge {
+            display: inline-flex; align-items: center; gap: 10px;
+            background: rgba(255,255,255,0.15); backdrop-filter: blur(5px);
+            padding: 8px 20px; border-radius: 30px; border: 1px solid rgba(255,255,255,0.3);
+            color: white; text-decoration: none; font-size: 0.95rem;
+            transition: background 0.3s;
+        }
+        .university-badge:hover { background: rgba(255,255,255,0.25); }
+
+        .mission-container {
+            max-width: 900px; margin: -60px auto 40px; 
+            position: relative; z-index: 5; padding: 0 20px;
+        }
+        .mission-card {
+            background: white; border-radius: 12px; padding: 40px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            border-left: 6px solid var(--secondary);
+            text-align: center;
+        }
+
+        /* --- CÁC SECTION NỘI DUNG (ẨN MẶC ĐỊNH) --- */
+        .content-section {
+            display: none; /* Quan trọng: Ẩn đi */
+            max-width: 1000px; margin: 40px auto; padding: 0 20px;
+            animation: slideUp 0.4s ease-out;
+            min-height: 60vh;
+        }
+
+        /* --- STYLES CHO NỘI DUNG --- */
+        .card {
+            background: var(--surface); border-radius: 12px; box-shadow: var(--shadow-1);
+            padding: 32px; margin-bottom: 30px; border: none;
+        }
+        .section-header {
+            color: var(--primary); font-size: 1.8rem; margin-bottom: 30px;
+            padding-bottom: 15px; border-bottom: 2px solid #f0f2f5;
+        }
+
+        /* Personal Info Grid */
+        .personal-info-grid {
+            display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; margin-bottom: 40px;
+        }
+        .info-box {
+            display: flex; align-items: center; gap: 15px;
+            background: #f8f9fa; padding: 15px 20px; border-radius: 8px;
+            border-left: 4px solid transparent; transition: all 0.3s;
+        }
+        .info-box:hover { border-left-color: var(--primary); background: #fff; box-shadow: var(--shadow-1); }
+        .info-icon {
+            width: 45px; height: 45px; background: white; border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            color: var(--primary); font-size: 1.2rem; box-shadow: 0 2px 5px rgba(0,0,0,0.05); flex-shrink: 0;
+        }
+        .info-content strong { display: block; color: var(--text-primary); font-size: 1rem; }
+        .info-content small { display: block; color: var(--text-secondary); font-size: 0.8rem; text-transform: uppercase; }
+
+        /* Timeline */
+        .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; }
+        .timeline-step { position: relative; padding-left: 30px; margin-bottom: 25px; }
+        .timeline-step::before {
+            content: ''; position: absolute; left: 6px; top: 6px; bottom: -25px; width: 2px; background: #e0e0e0;
+        }
+        .timeline-step:last-child::before { display: none; }
+        .timeline-step::after {
+            content: ''; position: absolute; left: 0; top: 6px; width: 14px; height: 14px; border-radius: 50%;
+            background: white; border: 3px solid var(--primary);
+        }
+        .step-year { background: var(--primary); color: white; padding: 2px 8px; border-radius: 12px; font-size: 0.75rem; font-weight: bold; }
+        .step-title { display: block; font-weight: bold; margin-top: 5px; }
+
+        /* Lists */
+        .numbered-list { counter-reset: item; list-style: none; padding: 0; }
+        .numbered-list li {
+            position: relative; padding-left: 30px; margin-bottom: 15px;
+            border-bottom: 1px solid #f9f9f9; padding-bottom: 10px;
+        }
+        .numbered-list li::before {
+            content: counter(item) "."; counter-increment: item;
+            position: absolute; left: 0; top: 0; font-weight: bold; color: var(--secondary);
+        }
+        .pub-item span { display: block; }
+        .pub-title { font-weight: 500; color: #000; }
+        .pub-source { font-size: 0.9rem; color: #666; font-style: italic; }
+
+        /* Footer */
+        footer { background: white; border-top: 1px solid #e0e0e0; padding: 30px 0; text-align: center; color: var(--text-secondary); margin-top: 50px;}
+
+        /* ANIMATIONS */
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        @keyframes slideUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+
+        @media (max-width: 768px) {
+            .nav-container { flex-direction: column; height: auto; padding: 10px; }
+            .grid-2, .personal-info-grid { grid-template-columns: 1fr; }
+            nav ul { flex-wrap: wrap; justify-content: center; margin-top: 10px; }
+            .hero h1 { font-size: 2rem; }
+            .mission-container { margin-top: -30px; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="nav-container">
+            <div class="brand-area" onclick="showSection('home')">
+                <img src="SchoolLogo.jpg" alt="Logo" class="school-logo">
+                <div class="logo-text">
+                    <strong>ThS. TRẦN THỊ PHƯƠNG KIỀU</strong>
+                    <span>Giảng viên HUIT</span>
+                </div>
+            </div>
+            
+            <nav>
+                <ul>
+                    <li><button class="nav-btn" onclick="showSection('about')">Giới thiệu</button></li>
+                    <li><button class="nav-btn" onclick="showSection('publications')">Công bố KH</button></li>
+                    <li><button class="nav-btn" onclick="showSection('projects')">Đề tài & Dự án</button></li>
+                    <li><button class="nav-btn" onclick="showSection('contact')">Liên hệ</button></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <div id="home-view">
+        <div class="hero">
+            <div class="hero-content">
+                <img src="Avatar.jpg" alt="Avatar" class="profile-img">
+                <h1>ThS. Trần Thị Phương Kiều</h1>
+                <div class="subtitle">Khoa Du lịch & Ẩm thực</div>
+                
+                <a href="https://huit.edu.vn" target="_blank" class="university-badge">
+                    <i class="fas fa-university"></i> Trường Đại học Công Thương TP. Hồ Chí Minh
+                </a>
+            </div>
+        </div>
+
+        <div class="mission-container">
+            <div class="mission-card">
+                <i class="fas fa-quote-left" style="color: var(--secondary); font-size: 2rem; margin-bottom: 20px;"></i>
+                <p style="font-size: 1.1rem; font-style: italic; color: #555; line-height: 1.8;">
+                    "Sứ mệnh: Gắn kết giữa tri thức khoa học – công nghệ thực phẩm – và nghệ thuật ẩm thực để nâng cao chất lượng đào tạo và thúc đẩy nghiên cứu ứng dụng phục vụ cộng đồng."
+                </p>
+                
+                <div style="margin-top: 30px; background: #fff8e1; padding: 15px; border-radius: 8px; display: inline-block;">
+                    <strong style="color: #f57f17; display: block; margin-bottom: 5px;">
+                        <i class="fas fa-bullseye"></i> Định hướng & Nguyện vọng:
+                    </strong>
+                    <span>Phát triển chuyên sâu nghiên cứu về <strong>Chế biến thực phẩm</strong> và <strong>Dịch vụ ăn uống</strong>.</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="about" class="content-section">
+        <h2 class="section-header"><i class="fas fa-id-card-alt"></i> Hồ sơ chuyên môn</h2>
+        
+        <div class="card">
+            <div class="personal-info-grid">
+                <div class="info-box">
+                    <div class="info-icon"><i class="fas fa-user"></i></div>
+                    <div class="info-content"><small>Họ và tên</small><strong>Trần Thị Phương Kiều</strong></div>
+                </div>
+                <div class="info-box">
+                    <div class="info-icon"><i class="fas fa-birthday-cake"></i></div>
+                    <div class="info-content"><small>Năm sinh</small><strong>1983 - Đồng Nai</strong></div>
+                </div>
+                <div class="info-box">
+                    <div class="info-icon"><i class="fas fa-briefcase"></i></div>
+                    <div class="info-content"><small>Chức danh</small><strong>Giảng viên (Hạng III)</strong></div>
+                </div>
+                <div class="info-box">
+                    <div class="info-icon" style="color: #a6ce39;"><i class="fab fa-orcid"></i></div>
+                    <div class="info-content"><small>ORCID</small><a href="https://orcid.org/0009-0006-9484-4168" target="_blank">0009-0006-9484-4168</a></div>
+                </div>
+            </div>
+
+            <div class="grid-2">
+                <div>
+                    <h4 style="color: var(--primary); margin-bottom: 20px;"><i class="fas fa-graduation-cap"></i> Đào tạo</h4>
+                    <div class="timeline-step">
+                        <span class="step-year">2019</span><span class="step-title">Thạc sĩ Công nghệ Thực phẩm</span>
+                        <small>Đại học Nông Lâm TP.HCM</small>
+                    </div>
+                    <div class="timeline-step">
+                        <span class="step-year">2020</span><span class="step-title">Cử nhân Ngôn ngữ Anh</span>
+                        <small>Đại học Chu Văn An</small>
+                    </div>
+                    <div class="timeline-step">
+                        <span class="step-year">2006</span><span class="step-title">Cử nhân Kỹ thuật nữ công</span>
+                        <small>ĐH Sư phạm Kỹ thuật TP.HCM</small>
+                    </div>
+                </div>
+                <div>
+                    <h4 style="color: var(--primary); margin-bottom: 20px;"><i class="fas fa-history"></i> Công tác</h4>
+                    <div class="timeline-step">
+                        <span class="step-year">07/2023 - Nay</span><span class="step-title">Trường ĐH Công Thương TP.HCM</span>
+                        <small>Khoa Du lịch và Ẩm thực</small>
+                    </div>
+                    <div class="timeline-step">
+                        <span class="step-year">2018 - 2023</span><span class="step-title">Trường ĐH CN Thực phẩm TP.HCM</span>
+                        <small>Khoa Du lịch và Ẩm thực</small>
+                    </div>
+                    <div class="timeline-step">
+                        <span class="step-year">2009 - 2018</span><span class="step-title">Trường CĐ CN Thực phẩm TP.HCM</span>
+                        <small>Giảng viên</small>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="card">
+            <h3 style="margin-top: 0;"><i class="fas fa-medal" style="color: #fbc02d;"></i> Khen thưởng & Giải thưởng</h3>
+            <ul class="numbered-list">
+                <li>Giải khuyến khích cuộc thi Sinh viên NCKH cấp trường năm 2021-2022.</li>
+                <li>Thành tích hướng dẫn tại Cuộc thi NCKH sinh viên 2023-2024.</li>
+                <li>Thành tích hướng dẫn tại Cuộc thi Sinh viên NCKH năm học 2024-2025.</li>
+            </ul>
+        </div>
+    </div>
+
+    <div id="publications" class="content-section">
+        <h2 class="section-header"><i class="fas fa-book-open"></i> Công bố Khoa học & Sách</h2>
+        
+        <div class="card">
+            <h3 style="color: var(--primary);">Các bài báo khoa học (2020-2025)</h3>
+            <ol class="numbered-list">
+                <li>
+                    <div class="pub-item">
+                        <span class="pub-title">Nghiên cứu công thức chế biến bánh lưỡi mèo từ bột mắc ca (2025)</span>
+                        <span class="pub-source">Kỷ yếu hội thảo NCKH lần VI - Tác giả: Trần Thị Phương Kiều, Đào Huỳnh Tuấn Lợi</span>
+                    </div>
+                </li>
+                <li>
+                    <div class="pub-item">
+                        <span class="pub-title">Nghiên cứu quy trình chế biến bột khoai tây ruột vàng (2025)</span>
+                        <span class="pub-source">Kỷ yếu hội thảo NCKH lần VI - Tác giả: Trần Thị Phương Kiều, Nguyễn Thái Dương</span>
+                    </div>
+                </li>
+                <li>
+                    <div class="pub-item">
+                        <span class="pub-title">Combination of banana fruit in the production of pineapple wine (2025)</span>
+                        <span class="pub-source">Food Research (ISSN: 2550-2166) - Nhóm tác giả: Đặng Thúy Mùi, Trần Thị Phương Kiều, et al.</span>
+                    </div>
+                </li>
+                <li>
+                    <div class="pub-item">
+                        <span class="pub-title">Tối ưu hóa quá trình thủy phân pectin trong dịch ép thanh long (2024)</span>
+                        <span class="pub-source">Tạp chí Khoa học HUIT (ISSN: 3030-413X)</span>
+                    </div>
+                </li>
+                <li>
+                    <div class="pub-item">
+                        <span class="pub-title">Tối ưu hóa điều kiện nấu sous-vide trong chế biến ức gà (2024)</span>
+                        <span class="pub-source">Tạp chí Công Thương (ISSN: 0866-7756)</span>
+                    </div>
+                </li>
+                <li>
+                    <div class="pub-item"><span class="pub-title">Nghiên cứu quy trình chế biến mì tươi khoai tây (2023)</span></div>
+                </li>
+                <li>
+                    <div class="pub-item"><span class="pub-title">Nghiên cứu quy trình chế biến gia vị rắc cơm từ thịt cá tra (2023)</span></div>
+                </li>
+                <li>
+                    <div class="pub-item"><span class="pub-title">Tối ưu hóa điều kiện thủy phân collagen từ da cá ngừ vây vàng (2022)</span></div>
+                </li>
+                 <li>
+                    <div class="pub-item"><span class="pub-title">Nghiên cứu bảo quản mẫu tỉa hoa từ một số rau củ bằng màng bao alginate (2021)</span></div>
+                </li>
+                <li>
+                    <div class="pub-item"><span class="pub-title">Nghiên cứu quy trình chế biến gia vị rắc cơm từ rong Mứt (2021)</span></div>
+                </li>
+            </ol>
+        </div>
+
+        <div class="card">
+            <h3 style="color: var(--primary);">Sách & Giáo trình</h3>
+            <ul class="numbered-list">
+                <li><strong>Thí nghiệm khoa học chế biến món ăn (2025)</strong> - Đồng tác giả</li>
+                <li><strong>Chế biến món ăn Việt Nam (2024)</strong> - Đồng tác giả</li>
+                <li><strong>Giáo trình ẩm thực chay (2024)</strong> - Đồng tác giả</li>
+                <li><strong>Kỹ thuật chế biến món ăn Á (2024)</strong> - Đồng tác giả</li>
+            </ul>
+        </div>
+    </div>
+
+    <div id="projects" class="content-section">
+        <h2 class="section-header"><i class="fas fa-tasks"></i> Nhiệm vụ KHCN & Dự án</h2>
+        <div class="card">
+            <ol class="numbered-list">
+                <li>
+                    <strong>Nghiên cứu công nghệ sản xuất gia vị rắc cơm rong mứt (2018 - 2019)</strong><br>
+                    <span style="background: #fce8e6; color: #d93025; padding: 2px 6px; font-size: 0.8rem; font-weight: bold;">CHỦ NHIỆM ĐỀ TÀI</span> - Cấp Trường
+                </li>
+                <li>
+                    <strong>Nghiên cứu quy trình chế biến thịt ức gà luộc lá chanh bằng sous-vide (2023 - 2024)</strong><br>
+                    <span style="color: green; font-weight: bold; font-size: 0.8rem;">Thành viên</span>
+                </li>
+                <li>
+                    <strong>Xây dựng mô hình học nấu ăn dành cho du khách (2022 - 2023)</strong><br>
+                    <span style="color: green; font-weight: bold; font-size: 0.8rem;">Thành viên</span>
+                </li>
+                <li>
+                    <strong>Nghiên cứu khắc phục giảm trọng lượng tôm càng xanh lạnh đông (2022 - 2023)</strong><br>
+                    <span style="color: green; font-weight: bold; font-size: 0.8rem;">Thành viên</span>
+                </li>
+                <li>
+                    <strong>Nghiên cứu tinh sạch peptide collagen da cá ngừ vây vàng (2020 - 2021)</strong><br>
+                    <span style="color: green; font-weight: bold; font-size: 0.8rem;">Thành viên</span>
+                </li>
+            </ol>
+        </div>
+    </div>
+
+    <div id="contact" class="content-section">
+        <h2 class="section-header" style="text-align: center;"><i class="fas fa-paper-plane"></i> Liên hệ công tác</h2>
+        <div class="card" style="text-align: center; max-width: 600px; margin: 0 auto;">
+            <p style="font-size: 1.1rem; margin-bottom: 30px;">
+                Khoa Du lịch và Ẩm thực<br>Trường Đại học Công Thương TP. Hồ Chí Minh
+            </p>
+            
+            <div style="display: flex; justify-content: center; gap: 20px; flex-wrap: wrap;">
+                <a href="mailto:kieuttp@huit.edu.vn" style="background: var(--primary); color: white; padding: 12px 25px; border-radius: 5px; text-decoration: none; display: flex; align-items: center; gap: 10px;">
+                    <i class="fas fa-envelope"></i> kieuttp@huit.edu.vn
+                </a>
+                <a href="tel:0988868495" style="background: #34a853; color: white; padding: 12px 25px; border-radius: 5px; text-decoration: none; display: flex; align-items: center; gap: 10px;">
+                    <i class="fas fa-phone"></i> 0988.868.495
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <p>© 2024 ThS. Trần Thị Phương Kiều. All Rights Reserved.</p>
+    </footer>
+
+    <script>
+        function showSection(sectionId) {
+            // 1. Ẩn trang chủ
+            document.getElementById('home-view').style.display = 'none';
+            
+            // 2. Ẩn tất cả các section nội dung khác
+            const sections = document.querySelectorAll('.content-section');
+            sections.forEach(sec => sec.style.display = 'none');
+            
+            // 3. Xử lý logic hiển thị
+            if (sectionId === 'home') {
+                // Nếu chọn 'home' thì hiện lại trang chủ
+                document.getElementById('home-view').style.display = 'block';
+                // Cuộn lên đầu trang
+                window.scrollTo(0, 0);
+            } else {
+                // Nếu chọn mục khác, hiển thị section đó lên
+                const target = document.getElementById(sectionId);
+                if (target) {
+                    target.style.display = 'block';
+                    // Cuộn lên đầu trang để xem nội dung từ đầu
+                    window.scrollTo(0, 0);
+                }
+            }
+
+            // 4. Cập nhật trạng thái nút menu (Active state)
+            const buttons = document.querySelectorAll('.nav-btn');
+            buttons.forEach(btn => btn.classList.remove('active'));
+            
+            // Tìm nút vừa bấm để thêm class active (nếu không phải là home)
+            if (sectionId !== 'home') {
+                // Logic đơn giản để highlight nút: Tìm nút có onclick chứa id tương ứng
+                // (Trong thực tế có thể dùng ID cho nút để chính xác hơn)
+                buttons.forEach(btn => {
+                    if(btn.getAttribute('onclick').includes(sectionId)) {
+                        btn.classList.add('active');
+                    }
+                });
+            }
+        }
+    </script>
+
+</body>
+</html>
